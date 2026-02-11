@@ -102,6 +102,15 @@ def open_kicad_project(project_path: str) -> Dict[str, Any]:
         if sys.platform == "darwin":  # macOS
             # On MacOS, use the 'open' command to open the project in KiCad
             cmd = ["open", "-a", config.KICAD_APP_PATH, project_path]
+        elif sys.platform == "win32":  # Windows
+            # Use shell association on Windows to open the project with KiCad.
+            os.startfile(project_path)  # type: ignore[attr-defined]
+            return {
+                "success": True,
+                "command": f"os.startfile({project_path})",
+                "output": "Project opened via Windows shell.",
+                "error": None,
+            }
         elif sys.platform == "linux": # Linux
             # On Linux, use 'xdg-open'
             cmd = ["xdg-open", project_path]

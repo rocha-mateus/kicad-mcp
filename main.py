@@ -61,19 +61,18 @@ except Exception as e:
 
 if __name__ == "__main__":
     try:
-        logging.info(f"Starting KiCad MCP server process") 
+        logging.info(f"Starting KiCad MCP server process")
 
         # Print search paths from config
-        logging.info(f"Using KiCad user directory: {config.KICAD_USER_DIR}") # Changed print to logging
+        logging.info(f"Using KiCad user directory: {config.KICAD_USER_DIR}")
         if config.ADDITIONAL_SEARCH_PATHS:
-            logging.info(f"Additional search paths: {', '.join(config.ADDITIONAL_SEARCH_PATHS)}") # Changed print to logging
+            logging.info(f"Additional search paths: {', '.join(config.ADDITIONAL_SEARCH_PATHS)}")
         else:
-            logging.info(f"No additional search paths configured") # Changed print to logging
+            logging.info(f"No additional search paths configured")
 
-        # Run server
-        logging.info(f"Running server with stdio transport") # Changed print to logging
-        import asyncio
-        asyncio.run(server_main())
-    except Exception as e:
-        logging.exception(f"Unhandled exception in main") # Log exception details
+        # Run server (FastMCP server main is synchronous)
+        logging.info(f"Running server with stdio transport")
+        server_main()
+    except Exception:
+        logging.exception("Unhandled exception in main")
         raise
